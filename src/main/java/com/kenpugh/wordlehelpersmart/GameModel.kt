@@ -1,64 +1,34 @@
 package com.kenpugh.wordlehelpersmart
 
-data class GameModel(
-
-    val MAX_GUESS: Int = 6,
-    val WORD_SIZE: Int = 5,
-    var states: Array<Array<CharState>> = arrayOf(
-            arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-            arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-            arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-            arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-            arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.EXACT, CharState.YES),
-            arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.YES, CharState.EXACT),
-        )
-    ) {
-        fun setState(guessIndex: Int, charIndex: Int) {
-            val currentState = states[guessIndex][charIndex]
-
-            val newState = when (currentState) {
-                CharState.NO -> CharState.YES
-                CharState.YES -> CharState.EXACT
-                CharState.EXACT -> CharState.NO
-            }
-            states[guessIndex][charIndex] = newState
-            return
-
-        }
-        fun clone(): GameModel {
-            val states : Array<Array<CharState>> = arrayOf(
-                arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-                arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-                arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-                arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO),
-                arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.EXACT, CharState.YES),
-                arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.YES, CharState.EXACT),
-            )
-
-            for (i in 0..MAX_GUESS-1){
-                for (j in 0..WORD_SIZE -1){
-                    states[i][j] = this.states[i][j]
-                }
-            }
-            var cloneModel = GameModel(this.MAX_GUESS, this.WORD_SIZE, states);
-            return cloneModel;
-        }
-        fun getState(guessIndex: Int, charIndex: Int): CharState {
-            return states[guessIndex][charIndex]
-        }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as GameModel
-
-        if (!states.contentDeepEquals(other.states)) return false
-
-        return true
+data class CharStates (
+    val data: Array<CharState> =
+        arrayOf(CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO,
+            CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO,
+            CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO,
+            CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO,
+            CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO,
+            CharState.NO, CharState.NO, CharState.NO, CharState.NO, CharState.NO,)
+){
+    fun setState(index : Int, state: CharState){
+        data[index] = state;
+    }
+    fun getState(index : Int) : CharState {
+        return data[index]
+    }
+    fun nextState(index : Int){
+        data[index] = nextCharState(data[index])
+    }
+    fun clone() : CharStates {
+        return CharStates(this.data.clone())
+    }
+}
+data class GameModel (val oneState: CharState = CharState.NO, val states: CharStates = CharStates(), val sequence: Int= 0)
+    {
+    fun setState(index : Int, state: CharState){
+        this.states.setState(index, state)
     }
 
-    override fun hashCode(): Int {
-        return states.contentDeepHashCode()
+    fun nextState(index : Int){
+        this.states.nextState(index)
     }
 }
