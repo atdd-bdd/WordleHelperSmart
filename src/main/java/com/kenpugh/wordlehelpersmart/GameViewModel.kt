@@ -92,27 +92,27 @@ class GameViewModel : ViewModel() {
         return _uiState.value.oneState
     }
 }
-
-class SignUpViewModel() : ViewModel() {
-
-    var username by mutableStateOf("")
-        private set
-
-    fun updateUsername(input: String) {
-        username = input
-    }
-}
-
-// SignUpScreen.kt
-
-@Composable
-fun SignUpScreen(/*...*/) {
-
-    OutlinedTextField(
-        value = viewModel.username,
-        onValueChange = { username -> viewModel.updateUsername(username) }
-        /*...*/
-    )
-}
-
-
+//
+//class SignUpViewModel() : ViewModel() {
+//
+//    var username by mutableStateOf("")
+//        private set
+//
+//    fun updateUsername(input: String) {
+//        username = input
+//    }
+//}
+//
+//// SignUpScreen.kt
+//
+//@Composable
+//fun SignUpScreen(/*...*/) {
+//
+//    OutlinedTextField(
+//        value = viewModel.username,
+//        onValueChange = { username -> viewModel.updateUsername(username) }
+//        /*...*/
+//    )
+//}
+//
+//
