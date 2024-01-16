@@ -3,7 +3,10 @@ package com.kenpugh.wordlehelpersmart
 class Word constructor (initial :String)
 {
     private var value = arrayOf('Z','Z','Z','Z','Z')
-    private val WORD_SIZE = 5
+    val WORD_SIZE = 5
+    fun wordSize(): Int{
+        return WORD_SIZE
+    }
     init {
         fill(initial)
     }
@@ -12,7 +15,7 @@ class Word constructor (initial :String)
         if (source.length > WORD_SIZE)
            length = WORD_SIZE
         for (i in 0..length -1){
-            value[i] = source.get(i)
+            value[i] = source.get(i).uppercaseChar()
         }
         return true;
     }

@@ -22,23 +22,26 @@ class GameViewModel : ViewModel() {
         Word("AFour"), Word("AFive")
     )
     var enterGuessList = arrayOf(
-        "a", "b", "c", "d", "e",
-        "f", "g", "h", "i", "j",
-        "k", "l", "m", "n", "o",
-        "p", "q", "r", "s", "t",
-        "u", "v", "w", "x", "y",
-        "0", "1", "2", "3", "4"
+        " ", " ", " ", " ", " ",
+        " ", " ", " ", " ", " ",
+        " ", " ", " ", " ", " ",
+        " ", " ", " ", " ", " ",
+        " ", " ", " ", " ", " ",
+        " ", " ", " ", " ", " "
     )
     var current_guess_index = 0
     var current_guess_word = Word("     ")
     var game_over = false
     fun setCurrentGuessWord(word: Word) {
         current_guess_word = word
+        setCurrentGuess()
         updateState()
     }
 
     fun incrementGuessIndex() {
         setCurrentGuess()
+        if (current_guess_word.toString() == "     ")
+            return
         if (!game_over) {
             current_guess_index++
             if (current_guess_index >= MAX_GUESSES) {
@@ -48,13 +51,15 @@ class GameViewModel : ViewModel() {
         } else {
             resetGame()
         }
+        updateState()
+
     }
 
     private fun resetGame() {
         game_over = false
         current_guess_index = 0
         val newStates= CharStates()
-        for (i in 1..enterGuessList.size-1) {
+        for (i in 0..enterGuessList.size-1) {
             enterGuessList[i] = " "
         }
         val newSequence = _uiState.value.sequence + 1
@@ -78,8 +83,15 @@ class GameViewModel : ViewModel() {
         }
 
     }
-
+    fun indexInCurrentWord(index: Int): Boolean
+    {
+        val start = current_guess_index *5
+        val stop = start + 5
+        return index >= start && index < stop
+    }
     fun setState(it: Int, state: CharState) {
+        if (!indexInCurrentWord(it))
+            return;
         val newSequence = _uiState.value.sequence + 1
         val newStates = _uiState.value.states
         newStates.setState(it, state)

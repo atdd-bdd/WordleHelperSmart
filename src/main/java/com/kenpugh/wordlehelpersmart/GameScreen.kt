@@ -25,6 +25,9 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -50,6 +53,8 @@ private val textStyle = TextStyle(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
+
+
     val gameUiState by gameViewModel.uiState.collectAsState()
     val configuration = LocalConfiguration.current
     if (configuration.screenHeightDp < configuration.screenWidthDp) {
@@ -61,18 +66,14 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
             Column {
                 Text("Guesses", style = textStyle)
                 GuessColumn(gameViewModel.guessList, gameViewModel)
-                Button(onClick = { gameViewModel.setCurrentGuessWord(Word("ABCDE"))}) {
-                    Text("Somethihg else")
-                }
+                GuessEntryField(gameViewModel)
+                ButtonLockInGuess(gameViewModel)
             }
             grid(gameViewModel, gameUiState)
             Column {
                 Text("Answers", style = textStyle)
-                Answercolumn(gameViewModel.answerList)
-                Button(onClick = { gameViewModel.setCurrentGuessWord(Word("ABCDE"))}) {
-                    Text("Lock in Guess")
-                }
-            }
+                Answercolumn(gameViewModel.answerList,gameViewModel)
+             }
         }
 
     } else {
@@ -93,28 +94,30 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
 
                     }
                     Row {
-                         Button(onClick = { gameViewModel.setCurrentGuessWord(Word("ABCDE"))}) {
-                        Text("Somethihg else")
-                         }
-
+                        ButtonLockInGuess(gameViewModel)
                     }
 
                 }
                 Column {
                     Text("Answers", style = textStyle)
-                    Answercolumn(gameViewModel.answerList)
-                    Button(onClick = { gameViewModel.incrementGuessIndex()}) {
-                        if (gameViewModel.game_over)
-                            Text("Reset Game")
-                        else
-                            Text("Lock in Guess");
-
-                    }
-                }
+                    Answercolumn(gameViewModel.answerList, gameViewModel)
+                  }
             }
         }
     }
 }
+
+@Composable
+private fun ButtonLockInGuess(gameViewModel: GameViewModel) {
+    Button(onClick = { gameViewModel.incrementGuessIndex() }) {
+        if (gameViewModel.game_over)
+            Text("Reset Game")
+        else
+            Text("Lock in Guess");
+
+    }
+}
+
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -135,11 +138,12 @@ private val listModifier = Modifier
     .padding(10.dp)
 
 @Composable
-private fun Answercolumn(answers: List<Word>) {
+private fun Answercolumn(answers: List<Word>, gameViewModel: GameViewModel) {
     LazyColumn(
         modifier = Modifier
-            .background(Color.Gray)
-            .padding(10.dp).fillMaxHeight(.7f),
+            .background(Color(240,240,240))
+            .padding(10.dp)
+            .fillMaxHeight(.7f),
         contentPadding = PaddingValues(
             start = 20.dp,
             top = 5.dp,
@@ -147,9 +151,17 @@ private fun Answercolumn(answers: List<Word>) {
             bottom = 10.dp
         )
     ) {
-        // Add a single item
+        var index = 0;
         for (answer in answers) {
-            item { Text(text = answer.toString(), fontFamily = FontFamily.Monospace) }
+            item {
+                val current = answer
+                ClickableText(text = AnnotatedString(answer.toString()),    style = TextStyle(
+                    color = Color.Blue,
+                    fontSize = 26.sp,
+                    fontFamily = FontFamily.Monospace),
+                    onClick = {gameViewModel.setCurrentGuessWord(current) })
+            }
+            index++
         }
     }
 }
@@ -158,21 +170,22 @@ private fun Answercolumn(answers: List<Word>) {
 private fun GuessColumn(guesses: List<Word>, gameViewModel: GameViewModel) {
     LazyColumn(
         modifier = Modifier
-            .background(Color.Gray)
-            .padding(10.dp).fillMaxHeight(.6f),
+            .background(Color(240,240,240))
+            .padding(10.dp)
+            .fillMaxHeight(.6f),
         contentPadding = PaddingValues(
-            start = 20.dp,
+            start = 5.dp,
             top = 5.dp,
-            end = 20.dp,
+            end = 5.dp,
             bottom = 10.dp
         ),
     ) {
         // Add a single item
         var index = 0;
-        for (answer in guesses) {
+        for (guess in guesses) {
             item {
-                val current = answer
-                ClickableText(text = AnnotatedString(answer.toString()),    style = TextStyle(
+                val current = guess
+                ClickableText(text = AnnotatedString(guess.toString()),    style = TextStyle(
                     color = Color.Blue,
                     fontSize = 26.sp,
                     fontFamily = FontFamily.Monospace),
@@ -193,10 +206,11 @@ private fun grid(
 
     LazyVerticalGrid(
         // content padding
+
         horizontalArrangement = Arrangement.Center,
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
-            .background(Color.Yellow)
+            .background(Color(250,250,250))
             .wrapContentWidth(unbounded = true)
             .widthIn(min = 0.dp, max = 400.dp),
 
@@ -210,8 +224,10 @@ private fun grid(
     ) {
         val numbers = (0..29).toList()
         items(numbers.size) {
+            val text = gameViewModel.enterGuessList[it]
+            val inCurrentWord = gameViewModel.indexInCurrentWord(it)
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                CharButton(it, gameViewModel, gameState)
+                CharButton(it, gameViewModel, gameState,text, inCurrentWord)
             }
         }
     }
@@ -224,20 +240,25 @@ private val buttonTextStyle =
 @Composable
 private fun CharButton(
     it: Int, gameViewModel: GameViewModel,
-    gameModel: GameModel,
-) {
+    gameModel: GameModel, text: String, inCurrentWord : Boolean)
+ {
     val textColor = Color(0, 0, 0)
-    val colorNo = Color(200, 0, 0)
-    val colorYes = Color(0, 200, 0)
-    val colorExact = Color(0, 0, 200)
+    val colorNo = Color(150, 150, 150)
+    val colorYes = Color(200, 200, 100)
+    val colorExact = Color(100, 200, 100)
     val font = Font(familyName = DeviceFontFamilyName("Courier"))
     val charState = gameModel.states.getState(it)
-    val currentColor = when (charState) {
+    var currentColor = when (charState) {
         CharState.NO -> colorNo
         CharState.YES -> colorYes
         CharState.EXACT -> colorExact
         else -> colorNo
     }
+     if (text == " ")
+         if (inCurrentWord)
+            currentColor = Color(127,127,127)
+        else
+            currentColor = Color(240,240,240)
     TextButton(
         contentPadding = PaddingValues(
             start = 1.dp,
