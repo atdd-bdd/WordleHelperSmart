@@ -14,14 +14,14 @@ class AllWordMatches {
 //            }
 //        }
 
-        fun printCurrentAnswers(currentAnswers: BitArr3) {
-            for (ac in 0 until currentAnswers.count()) {
-                val a = currentAnswers.bitarray[ac]
-                outputNoLF(" ")
-                outputNoLF(Game.answers.words[a].toString())
-            }
-            output("")
-        }
+//        fun printCurrentAnswers(currentAnswers: BitArr3) {
+//            for (ac in 0 until currentAnswers.count()) {
+//                val a = currentAnswers.bitarray[ac]
+//                outputNoLF(" ")
+//                outputNoLF(Game.answers.words[a].toString())
+//            }
+//            output("")
+//        }
 
 
         fun determineNextGuessIndex(currentAnswers: BitArr3): Int {

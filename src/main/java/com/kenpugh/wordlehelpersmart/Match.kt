@@ -6,18 +6,18 @@ class Match(aValue: String) {
 //            val inp = indexIn.toUByte()
 //            return get_match(inp)
 //        }
-        fun get_match(indexIn: UByte): String {
-            var index = indexIn.toInt()
-            val values = arrayOf(1, 3, 9, 27, 81)
-            val ret = Word("NNNNN")
-            for (i in WORD_SIZE - 1 downTo 0) {
-                val this_digit = index / values[i]
-                ret.set(i, indexValue(this_digit))
-                index -= values[i] * this_digit
-            }
-            //ret.set(0, indexValue(remainder))
-            return ret.toString()
-        }
+//        fun get_match(indexIn: UByte): String {
+//            var index = indexIn.toInt()
+//            val values = arrayOf(1, 3, 9, 27, 81)
+//            val ret = Word("NNNNN")
+//            for (i in WORD_SIZE - 1 downTo 0) {
+//                val this_digit = index / values[i]
+//                ret.set(i, indexValue(this_digit))
+//                index -= values[i] * this_digit
+//            }
+//            //ret.set(0, indexValue(remainder))
+//            return ret.toString()
+//        }
 
         fun indexValue(index: Int): Char {
             return when (index) {

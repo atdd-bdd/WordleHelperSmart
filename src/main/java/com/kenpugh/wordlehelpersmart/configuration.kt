@@ -14,6 +14,6 @@
     const val INDEX_ALL_EXACT = NUMBER_MATCHES - 1
 
     const val NO_MATCHES_HERE = 0
-    const val MAX_TRIES = 10
+//    const val MAX_TRIES = 10
 //    const val THIS_IS_THE_ONE = 100000
 

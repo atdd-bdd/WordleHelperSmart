@@ -34,8 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.DeviceFontFamilyName
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -53,7 +51,7 @@ private val textStyle = TextStyle(
 
 
 var initialScreenShown by mutableStateOf(false)
-var initialized by mutableStateOf(false)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
