@@ -1,5 +1,5 @@
 
-class Word constructor (initial :String)
+class Word(initial :String)
 {
     private var value = arrayOf('.','.','.','.','.')
     private val wordSize = 5
@@ -15,14 +15,14 @@ class Word constructor (initial :String)
     init {
         fill(initial)
     }
-    private fun fill(source: String): Boolean{
+    private fun fill(source: String){
         var length = source.length
         if (source.length > wordSize)
             length = wordSize
         for (i in 0 until length){
             value[i] = source[i].uppercaseChar()
         }
-        return true
+        return
     }
     fun copy(source: String): Boolean{
         if (source.length < wordSize)

@@ -2,18 +2,16 @@ class Match(aValue: String) {
     private var value = Word("NNNNN")
 
     companion object {
-        fun get_match(indexIn: Int): String{
-            val inp = indexIn.toUByte()
-            return get_match(inp)
-        }
+//        fun get_match(indexIn: Int): String{
+//            val inp = indexIn.toUByte()
+//            return get_match(inp)
+//        }
         fun get_match(indexIn: UByte): String {
             var index = indexIn.toInt()
             val values = arrayOf(1, 3, 9, 27, 81)
             val ret = Word("NNNNN")
-            var remainder = 0
             for (i in WORD_SIZE - 1 downTo 0) {
                 val this_digit = index / values[i]
-                remainder = index % values[i]
                 ret.set(i, indexValue(this_digit))
                 index -= values[i] * this_digit
             }

@@ -1,23 +1,14 @@
 import android.content.Context
-import java.io.File
-import java.io.FileNotFoundException
 
-fun main() {
-    output("Wordle Guess Helper")
-    Game.load()
-    //computeMatchValues()
-    val startingString = arrayOf(
-        "SOARE", "TRACE", "CRATE", "SLATE", "CARET","CRANE", "CARTE",
-        "SAINT","LEAST", "STARE", "ROATE","RAILE", "IRATE",
-         "REAST", "AUDIO", "ADIEU", "ALERT","ARTEL","LATER", "CANOE",
-        "RAISE", "ORATE", "SLANE",  "SALET",
-    )
-    val startingWords = convertToWordArray(startingString)
-    val startingGuess = Word("SOARE")
-    runTurnsWithArrays()
-    //runTurnsStartingWithGuessAndAsk(startingGuess)
 
-}
+//fun main() {
+//    output("Wordle Guess Helper")
+//    Game.load()
+//    //computeMatchValues()
+//    runTurnsWithArrays()
+//    //runTurnsStartingWithGuessAndAsk(startingGuess)
+//
+//}
 
 fun computeMatchValues(context: Context?) {
     var valuesRead = false

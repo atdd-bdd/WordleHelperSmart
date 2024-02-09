@@ -25,7 +25,7 @@ class Words {
 
     private fun addToArray(guesses: Array<Word>, start : Int): Int {
         val thisSize = guesses.size
-        var total_size = start + thisSize
+        val total_size = start + thisSize
         System.arraycopy(guesses, 0, words, start, thisSize)
         return total_size
     }
@@ -42,24 +42,24 @@ class Words {
         return ret
     }
 
-   private fun readWords(dataFilename : String){
-
-        val file = File(dataFilename)
-        if (!file.canRead())
-            exitWithMessage("FileNotExist")
-       var index = 0
-       file.forEachLine {
-           if (it.length == 5)
-           {
-               words[index] = Word(it)
-               index++
-           }
-        }
-        if (index < 1) {
-            exitWithMessage("EmptyFile")
-        }
-       size = index
-    }
+//   private fun readWords(dataFilename : String){
+//
+//        val file = File(dataFilename)
+//        if (!file.canRead())
+//            exitWithMessage("FileNotExist")
+//       var index = 0
+//       file.forEachLine {
+//           if (it.length == 5)
+//           {
+//               words[index] = Word(it)
+//               index++
+//           }
+//        }
+//        if (index < 1) {
+//            exitWithMessage("EmptyFile")
+//        }
+//       size = index
+//    }
 
 
 }

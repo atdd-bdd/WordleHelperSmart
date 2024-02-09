@@ -65,9 +65,9 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
             InitialScreen(gameViewModel)
         } else {
             if (gameUiState.initialized)
-                verticalGame(gameViewModel, gameUiState)
+                VerticalGame(gameViewModel, gameUiState)
             else {
-                InitializingScreen(gameViewModel)
+                InitializingScreen()
                 composableScope.launch {
                     gameViewModel.initalize()
                 }
@@ -79,9 +79,9 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
             InitialScreen(gameViewModel)
         } else {
             if (gameUiState.initialized)
-                horizonaGame(gameViewModel, gameUiState)
+                HorizonaGame(gameViewModel, gameUiState)
             else {
-                InitializingScreen(gameViewModel)
+                InitializingScreen()
                 composableScope.launch {
                     gameViewModel.initalize()
                 }            }
@@ -90,7 +90,7 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
 }
 
 @Composable
-private fun InitializingScreen(gameViewModel: GameViewModel) {
+private fun InitializingScreen() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(horizontalArrangement = Arrangement.Center) {
             Text(text = "Initializing Word Data\n\n"
@@ -131,17 +131,17 @@ private fun InitialScreen(gameViewModel: GameViewModel) {
 
 
 @Composable
-private fun horizonaGame(
+private fun HorizonaGame(
     gameViewModel: GameViewModel,
     gameUiState: GameModel,
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(horizontalArrangement = Arrangement.Center) {
-            grid(gameViewModel, gameUiState)
+            Grid(gameViewModel, gameUiState)
         }
         Row(horizontalArrangement = Arrangement.Center) {
             Column (horizontalAlignment = Alignment.CenterHorizontally){
-                Row (){
+                Row {
                     Text("Guesses", style = textStyle)
                 }
                 Row (modifier = Modifier.weight(1f)){
@@ -171,7 +171,7 @@ private fun horizonaGame(
 }
 
 @Composable
-private fun verticalGame(
+private fun VerticalGame(
     gameViewModel: GameViewModel,
     gameUiState: GameModel,
 ) {
@@ -194,7 +194,7 @@ private fun verticalGame(
                 ButtonLockInGuess(gameViewModel)
             }
         }
-        grid(gameViewModel, gameUiState)
+        Grid(gameViewModel, gameUiState)
         Column (horizontalAlignment = Alignment.CenterHorizontally){
             Row {
                 Text("Answers", style = textStyle)
@@ -307,7 +307,7 @@ fun GuessColumn(guesses: List<Word>, gameViewModel: GameViewModel) {
 
 
 @Composable
-private fun grid(
+private fun Grid(
     gameViewModel: GameViewModel, gameState: GameModel,
 
     ) {
@@ -355,13 +355,13 @@ private fun CharButton(
     val colorNo = Color(150, 150, 150)
     val colorYes = Color(200, 200, 100)
     val colorExact = Color(100, 200, 100)
-    val font = Font(familyName = DeviceFontFamilyName("Courier"))
+   // val font = Font(familyName = DeviceFontFamilyName("Courier"))
     val charState = gameModel.states.getState(it)
     var currentColor = when (charState) {
         CharState.NO -> colorNo
         CharState.YES -> colorYes
         CharState.EXACT -> colorExact
-        else -> colorNo
+
     }
     if (text == " ")
         if (inCurrentWord)

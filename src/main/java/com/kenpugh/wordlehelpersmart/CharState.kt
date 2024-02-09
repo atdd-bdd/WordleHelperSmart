@@ -14,7 +14,7 @@ fun nextCharState(inValue: CharState): CharState
     CharState.YES -> CharState.EXACT
     CharState.EXACT -> CharState.NO
 }
-    return outValue;
+    return outValue
 }
 fun charToString(invalue:CharState): Char {
     val outVal = when(invalue) {

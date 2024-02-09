@@ -46,22 +46,22 @@ class WordMatches {
 
     }
 
-   fun printMatches() {
-       for (mi in 0 until NUMBER_MATCHES) {
-           val m = mi.toUByte()
-           val s = Match.get_match(m)
-           outputNoLF("$s ")
-           var count = 0
-           for (a in 0 until Game.answers.size) {
-               if (matchesForAnswers[a] == m) {
-                   val w = Game.answers.words[a]
-                   outputNoLF(" $w")
-                   count++
-               }
-           }
-           output("Count $count")
-       }
-   }
+//   fun printMatches() {
+//       for (mi in 0 until NUMBER_MATCHES) {
+//           val m = mi.toUByte()
+//           val s = Match.get_match(m)
+//           outputNoLF("$s ")
+//           var count = 0
+//           for (a in 0 until Game.answers.size) {
+//               if (matchesForAnswers[a] == m) {
+//                   val w = Game.answers.words[a]
+//                   outputNoLF(" $w")
+//                   count++
+//               }
+//           }
+//           output("Count $count")
+//       }
+//   }
 //    fun analyze(): Boolean {
 //        var counts = IntArray(NUMBER_MATCHES.toInt()) { 0 }
 //        for (a in 0..Game.answers.size-1) {

@@ -55,7 +55,6 @@ class AllWordMatches {
         fun determineNextGuessIndices(currentAnswers: BitArr3): List<Int> {
             val guessIndices: MutableList<Int> = mutableListOf()
             val guessAverages = Array<Triple<Int, Double, Int>>(Game.guesses.size){Triple(0,0.0, 0)}
-            var guessIndex = 0
             average.fill(0.0)
             contains_guess.fill(0)
             for (g in 0 until Game.guesses.size) {

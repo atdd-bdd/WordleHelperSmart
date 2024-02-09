@@ -3,9 +3,6 @@ package com.kenpugh.wordlehelpersmart
 import BitArr3
 import Match
 import Word
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.lifecycle.ViewModel
 import computeMatchValues
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -128,14 +125,13 @@ class GameViewModel : ViewModel() {
     }
 
     private fun findNextGuesses() {
-        var guessIndex = Game.guesses.findIndex(current_guess_word)
+        val guessIndex = Game.guesses.findIndex(current_guess_word)
         val matchString = _uiState.value.getMatch(current_guess_index)
         val matchIn = Match(matchString)
         val matchIndex = matchIn.getIndex()
         val matchForGuess = AllWordMatches.all_word_matches[guessIndex]
         val fromCurrentMatch = matchForGuess.getAnswersForMatch(matchIndex)
         currentAnswers = BitArr3.andAll(currentAnswers, fromCurrentMatch)
-        guessIndex = AllWordMatches.determineNextGuessIndex(currentAnswers)
         firstGuesses()
 
 
@@ -153,7 +149,7 @@ class GameViewModel : ViewModel() {
         game_over = false
         current_guess_index = 0
         val newStates= CharStates()
-        for (i in 0..enterGuessList.size-1) {
+        for (i in enterGuessList.indices) {
             enterGuessList[i] = " "
         }
         val newSequence = _uiState.value.sequence + 1
@@ -184,11 +180,11 @@ class GameViewModel : ViewModel() {
     {
         val start = current_guess_index *5
         val stop = start + 5
-        return index >= start && index < stop
+        return index in start until stop
     }
     fun setState(it: Int, state: CharState) {
         if (!indexInCurrentWord(it))
-            return;
+            return
         val newSequence = _uiState.value.sequence + 1
         val newStates = _uiState.value.states
         newStates.setState(it, state)
@@ -197,7 +193,7 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    fun getState(it: Int): CharState {
-        return _uiState.value.oneState
-    }
+//    fun getState(it: Int): CharState {
+//        return _uiState.value.oneState
+//    }
 }
