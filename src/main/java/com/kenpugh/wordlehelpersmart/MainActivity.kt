@@ -13,16 +13,17 @@ import com.kenpugh.wordlehelpersmart.ui.theme.WordleHelperSmartTheme
 
 class MainActivity : ComponentActivity() {
     companion object {
-        var context : Context? = null
+        var context: Context? = null
     }
 
     fun setContext() {
         context = this.baseContext
         return
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-          setContent {
+        setContent {
             WordleHelperSmartTheme {
 
                 // A surface container using the 'background' color from the theme
@@ -38,5 +39,5 @@ class MainActivity : ComponentActivity() {
         }
 
     }
-    }
+}
 

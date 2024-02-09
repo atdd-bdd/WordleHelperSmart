@@ -1,6 +1,3 @@
-
-
-
 class Game {
     companion object {
         val guesses = Words()

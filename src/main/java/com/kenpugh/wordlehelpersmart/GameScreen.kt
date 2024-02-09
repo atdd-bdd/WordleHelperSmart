@@ -56,7 +56,7 @@ var initialScreenShown by mutableStateOf(false)
 @Composable
 fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
     val composableScope = rememberCoroutineScope()
-     val gameUiState by gameViewModel.uiState.collectAsState()
+    val gameUiState by gameViewModel.uiState.collectAsState()
     val configuration = LocalConfiguration.current
     if (configuration.screenHeightDp < configuration.screenWidthDp) {
         if (!initialScreenShown) {
@@ -82,7 +82,8 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
                 InitializingScreen()
                 composableScope.launch {
                     gameViewModel.initalize()
-                }            }
+                }
+            }
         }
     }
 }
@@ -91,35 +92,36 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
 private fun InitializingScreen() {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(horizontalArrangement = Arrangement.Center) {
-            Text(text = "Initializing Word Data\n\n"
-                    +"The first time app is loaded, this may take a minute.\n\n"
-                + "After that, it may take a few seconds\n"
-                ,
+            Text(
+                text = "Initializing Word Data\n\n"
+                        + "The first time app is loaded, this may take a minute.\n\n"
+                        + "After that, it may take a few seconds\n",
                 modifier = Modifier.padding(16.dp)
             )
         }
 
     }
 }
+
 @Composable
 private fun InitialScreen(gameViewModel: GameViewModel) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(horizontalArrangement = Arrangement.Center) {
 
-            Text(text =
-            "Welcome to WordleHelper\n\n"+
-                "1. Pick a word on the guess list or answer list\n"+
-                "    You can also enter a word in the guess box\n"+
-                 "2. Go to the game on the NYTimes and enter the guess\n"+
-                "3. Click on the letters until the colors match the NYTimes game\n"+
-                "4. Then click on Lock in Guess\n"
-            ,
+            Text(
+                text =
+                "Welcome to WordleHelper\n\n" +
+                        "1. Pick a word on the guess list or answer list\n" +
+                        "    You can also enter a word in the guess box\n" +
+                        "2. Go to the game on the NYTimes and enter the guess\n" +
+                        "3. Click on the letters until the colors match the NYTimes game\n" +
+                        "4. Then click on Lock in Guess\n",
                 modifier = Modifier.padding(16.dp)
-                )
+            )
 
         }
         Row(horizontalArrangement = Arrangement.Center) {
-            Button(onClick = { initialScreenShown=true;  gameViewModel.setInitialScreenShown()})
+            Button(onClick = { initialScreenShown = true; gameViewModel.setInitialScreenShown() })
             {
                 Text("Continue")
             }
@@ -138,11 +140,11 @@ private fun HorizonaGame(
             Grid(gameViewModel, gameUiState)
         }
         Row(horizontalArrangement = Arrangement.Center) {
-            Column (horizontalAlignment = Alignment.CenterHorizontally){
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Row {
                     Text("Guesses", style = textStyle)
                 }
-                Row (modifier = Modifier.weight(1f)){
+                Row(modifier = Modifier.weight(1f)) {
                     GuessColumn(gameViewModel.guessList, gameViewModel)
                 }
                 Row {
@@ -154,16 +156,17 @@ private fun HorizonaGame(
                 }
 
             }
-            Column (horizontalAlignment = Alignment.CenterHorizontally){
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Row {
                     Text("Answers", style = textStyle)
                 }
-                Row (modifier = Modifier.weight(1f)){
+                Row(modifier = Modifier.weight(1f)) {
                     Answercolumn(gameViewModel.answerList, gameViewModel)
                 }
                 Row {
                     ButtonResetGame(gameViewModel)
-                }}
+                }
+            }
         }
     }
 }
@@ -178,11 +181,11 @@ private fun VerticalGame(
         horizontalArrangement = Arrangement.Center
     )
     {
-        Column (horizontalAlignment = Alignment.CenterHorizontally){
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row {
                 Text("Guesses", style = textStyle)
             }
-            Row (modifier = Modifier.weight(1f)){
+            Row(modifier = Modifier.weight(1f)) {
                 GuessColumn(gameViewModel.guessList, gameViewModel)
             }
             Row {
@@ -193,11 +196,11 @@ private fun VerticalGame(
             }
         }
         Grid(gameViewModel, gameUiState)
-        Column (horizontalAlignment = Alignment.CenterHorizontally){
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row {
                 Text("Answers", style = textStyle)
             }
-            Row (modifier = Modifier.weight(1f)){
+            Row(modifier = Modifier.weight(1f)) {
                 Answercolumn(gameViewModel.answerList, gameViewModel)
             }
             Row {
@@ -216,6 +219,7 @@ private fun ButtonResetGame(gameViewModel: GameViewModel) {
 
     }
 }
+
 @Composable
 fun ButtonLockInGuess(gameViewModel: GameViewModel) {
     Button(onClick = {
@@ -353,7 +357,7 @@ private fun CharButton(
     val colorNo = Color(150, 150, 150)
     val colorYes = Color(200, 200, 100)
     val colorExact = Color(100, 200, 100)
-   // val font = Font(familyName = DeviceFontFamilyName("Courier"))
+    // val font = Font(familyName = DeviceFontFamilyName("Courier"))
     val charState = gameModel.states.getState(it)
     var currentColor = when (charState) {
         CharState.NO -> colorNo

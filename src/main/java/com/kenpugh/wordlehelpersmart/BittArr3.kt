@@ -55,7 +55,7 @@ class BitArr3 {
 //    fun get_bitarray(): IntArray {
 //        return this.bitarray
 //    }
-        //        fun orAll(one: BitArr3, other: BitArr3): BitArr3 {
+    //        fun orAll(one: BitArr3, other: BitArr3): BitArr3 {
 //            val result = BitArr3()
 //            result.clearAll()
 //            val sizeOther = other.size
@@ -104,7 +104,7 @@ class BitArr3 {
 //    }
 
 
-    }
+}
 
 //bool BitArr3::get(unsigned int word) {
 //	unsigned value = bitarray[word];
