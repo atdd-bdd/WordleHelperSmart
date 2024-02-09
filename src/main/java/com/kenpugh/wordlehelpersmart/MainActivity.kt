@@ -1,5 +1,6 @@
 package com.kenpugh.wordlehelpersmart
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +12,14 @@ import com.kenpugh.wordlehelpersmart.ui.theme.WordleHelperSmartTheme
 
 
 class MainActivity : ComponentActivity() {
+    companion object {
+        var context : Context? = null
+    }
 
+    fun setContext() {
+        context = this.baseContext
+        return
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
           setContent {
@@ -24,6 +32,7 @@ class MainActivity : ComponentActivity() {
                 )
                 {
                     GameScreen()
+                    setContext()
                 }
             }
         }
