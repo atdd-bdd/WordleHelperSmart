@@ -1,6 +1,7 @@
 package com.kenpugh.wordlehelpersmart
 
 import Word
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -66,8 +68,9 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
                 VerticalGame(gameViewModel, gameUiState)
             else {
                 InitializingScreen()
+                val context = LocalContext.current as Activity
                 composableScope.launch {
-                    gameViewModel.initalize()
+                    gameViewModel.initalize(context)
                 }
             }
         }
@@ -80,8 +83,9 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
                 HorizonaGame(gameViewModel, gameUiState)
             else {
                 InitializingScreen()
+                val context = LocalContext.current as Activity
                 composableScope.launch {
-                    gameViewModel.initalize()
+                    gameViewModel.initalize(context)
                 }
             }
         }

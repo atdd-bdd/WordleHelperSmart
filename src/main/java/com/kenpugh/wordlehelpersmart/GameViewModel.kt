@@ -3,6 +3,7 @@ package com.kenpugh.wordlehelpersmart
 import BitArr3
 import Match
 import Word
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import computeMatchValues
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,8 +30,8 @@ class GameViewModel : ViewModel() {
         updateState()
     }
 
-    fun initalize(){
-        loadMatches()
+    fun initalize(context : Context){
+        loadMatches(context)
         firstGuesses()
         matchesComputed = true
         output(" ended match computation")
@@ -58,11 +59,10 @@ class GameViewModel : ViewModel() {
             guessList.add(Word(""))
     }
 
-    private fun loadMatches() {
+    private fun loadMatches(context: Context) {
         if (matchesComputed)
             return
-        val context = MainActivity.context
-        output(context.toString())
+         output(context.toString())
 //        if (context != null) {
             output(" started match computation")
             computeMatchValues(context)
