@@ -147,7 +147,7 @@ private fun InitialScreen(gameViewModel: GameViewModel, sharedPreferences: Share
             Row(horizontalArrangement = Arrangement.Center) {
                 Button(onClick = { turnOffShowInitialScreen(sharedPreferences); initialScreenShown = true; gameViewModel.setInitialScreenShown()  })
                 {
-                    Text("Do Not Shown This Screen Again")
+                    Text("Do Not Show This Screen Again")
                 }
             }
     }
