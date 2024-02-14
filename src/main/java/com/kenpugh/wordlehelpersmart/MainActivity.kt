@@ -1,5 +1,6 @@
 package com.kenpugh.wordlehelpersmart
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 )
                 {
-                    GameScreen()
+                    val context = this.baseContext
+                    val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+                    GameScreen(sharedPreferences = sharedPref)
                  }
             }
         }

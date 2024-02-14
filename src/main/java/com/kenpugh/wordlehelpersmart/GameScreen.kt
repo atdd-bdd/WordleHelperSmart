@@ -2,6 +2,7 @@ package com.kenpugh.wordlehelpersmart
 
 import Word
 import android.app.Activity
+import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -55,15 +56,23 @@ private val textStyle = TextStyle(
 
 var initialScreenShown by mutableStateOf(false)
 
+fun turnOffShowInitialScreen(sharedPreferences: SharedPreferences){
+    with (sharedPreferences.edit()) {
+        putBoolean("ShowInitialScreen", false)
+        apply()
+    }
+
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
+fun GameScreen(gameViewModel: GameViewModel = viewModel(), sharedPreferences: SharedPreferences) {
     val composableScope = rememberCoroutineScope()
     val gameUiState by gameViewModel.uiState.collectAsState()
     val configuration = LocalConfiguration.current
+    val showInitialScreen = sharedPreferences.getBoolean("ShowInitialScreen", true)
     if (configuration.screenHeightDp < configuration.screenWidthDp) {
-        if (!initialScreenShown) {
-            InitialScreen(gameViewModel)
+        if (showInitialScreen&& !initialScreenShown) {
+            InitialScreen(gameViewModel, sharedPreferences)
         } else {
             if (gameUiState.initialized)
                 VerticalGame(gameViewModel, gameUiState)
@@ -80,8 +89,8 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
         }
 
     } else {
-        if (!initialScreenShown) {
-            InitialScreen(gameViewModel)
+        if (showInitialScreen&& !initialScreenShown) {
+            InitialScreen(gameViewModel, sharedPreferences)
         } else {
             if (gameUiState.initialized)
                 HorizonaGame(gameViewModel, gameUiState)
@@ -115,7 +124,7 @@ private fun InitializingScreen() {
 }
 
 @Composable
-private fun InitialScreen(gameViewModel: GameViewModel) {
+private fun InitialScreen(gameViewModel: GameViewModel, sharedPreferences: SharedPreferences) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Row(horizontalArrangement = Arrangement.Center) {
 
@@ -137,6 +146,12 @@ private fun InitialScreen(gameViewModel: GameViewModel) {
                 Text("Continue")
             }
         }
+            Row(horizontalArrangement = Arrangement.Center) {
+                Button(onClick = { turnOffShowInitialScreen(sharedPreferences); initialScreenShown = true; gameViewModel.setInitialScreenShown()  })
+                {
+                    Text("Do Not Shown This Screen Again")
+                }
+            }
     }
 }
 
