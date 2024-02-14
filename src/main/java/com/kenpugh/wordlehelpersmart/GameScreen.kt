@@ -24,6 +24,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -69,8 +70,11 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
             else {
                 InitializingScreen()
                 val context = LocalContext.current as Activity
-                composableScope.launch {
+                LaunchedEffect(key1 = Unit )
+                {
                     gameViewModel.initalize(context)
+//                composableScope.launch {
+//                    gameViewModel.initalize(context)
                 }
             }
         }
@@ -84,8 +88,11 @@ fun GameScreen(gameViewModel: GameViewModel = viewModel()) {
             else {
                 InitializingScreen()
                 val context = LocalContext.current as Activity
-                composableScope.launch {
+                LaunchedEffect(key1 = Unit )
+                {
                     gameViewModel.initalize(context)
+//                composableScope.launch {
+//                    gameViewModel.initalize(context)
                 }
             }
         }
@@ -245,7 +252,7 @@ private fun GuessEntryField(gameViewModel: GameViewModel) {
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done
         ),
-        modifier = Modifier.size(width = 90.dp, height = 70.dp)
+        modifier = Modifier.size(width = 110.dp, height = 70.dp)
     )
 }
 
@@ -258,9 +265,9 @@ private fun Answercolumn(answers: List<Word>, gameViewModel: GameViewModel) {
             .padding(10.dp)
             .fillMaxHeight(1f),
         contentPadding = PaddingValues(
-            start = 20.dp,
+            start = 8.dp,
             top = 5.dp,
-            end = 20.dp,
+            end = 10.dp,
             bottom = 10.dp
         )
     ) {
@@ -288,9 +295,9 @@ fun GuessColumn(guesses: List<Word>, gameViewModel: GameViewModel) {
             .padding(10.dp)
             .fillMaxHeight(1f),
         contentPadding = PaddingValues(
-            start = 5.dp,
+            start = 8.dp,
             top = 5.dp,
-            end = 5.dp,
+            end = 10.dp,
             bottom = 10.dp
         ),
     ) {
