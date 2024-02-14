@@ -25,7 +25,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 )
                 {
-                    val context = this.baseContext
                     val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
                     GameScreen(sharedPreferences = sharedPref)
                  }

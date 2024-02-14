@@ -29,7 +29,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,7 +43,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.launch
+
 
 private val textStyle = TextStyle(
     fontSize = 20.sp,
@@ -63,10 +62,9 @@ fun turnOffShowInitialScreen(sharedPreferences: SharedPreferences){
     }
 
 }
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GameScreen(gameViewModel: GameViewModel = viewModel(), sharedPreferences: SharedPreferences) {
-    val composableScope = rememberCoroutineScope()
+
     val gameUiState by gameViewModel.uiState.collectAsState()
     val configuration = LocalConfiguration.current
     val showInitialScreen = sharedPreferences.getBoolean("ShowInitialScreen", true)
@@ -391,6 +389,7 @@ private fun CharButton(
         CharState.EXACT -> colorExact
 
     }
+    @Suppress("LiftReturnOrAssignment")
     if (text == " ")
         if (inCurrentWord)
             currentColor = Color(127, 127, 127)

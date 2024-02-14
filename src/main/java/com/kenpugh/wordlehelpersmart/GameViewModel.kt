@@ -15,9 +15,9 @@ import output
 
 
 class GameViewModel : ViewModel() {
-    var matchesComputed = false
-    var initialScreenShown = false
-    var currentAnswers = BitArr3()
+    private var matchesComputed = false
+    private var initialScreenShown = false
+    private var currentAnswers = BitArr3()
 
     init {
         Game.load()
@@ -77,7 +77,7 @@ class GameViewModel : ViewModel() {
             currentState.copy(sequence = newSequence, initialized = true)
         }  }
 
-    val MAX_GUESSES = 6
+    private val MAX_GUESSES = 6
     private val _uiState = MutableStateFlow(GameModel())
     var uiState: StateFlow<GameModel> = _uiState.asStateFlow()
     var guessList = mutableListOf(
@@ -96,9 +96,9 @@ class GameViewModel : ViewModel() {
         " ", " ", " ", " ", " ",
         " ", " ", " ", " ", " "
     )
-    var current_guess_index = 0
+    private var current_guess_index = 0
     var current_guess_word = Word("     ")
-    var game_over = false
+    private var game_over = false
     fun setCurrentGuessWord(word: Word) {
         current_guess_word = word
         setCurrentGuess()
@@ -161,7 +161,7 @@ class GameViewModel : ViewModel() {
         current_guess_word = Word("     ")
     }
 
-    fun setCurrentGuess() {
+    private fun setCurrentGuess() {
         val startIndex = current_guess_index * 5
         for (i in 0..4) {
             enterGuessList[i + startIndex] = current_guess_word.charAt(i).toString()
@@ -169,7 +169,7 @@ class GameViewModel : ViewModel() {
         }
     }
 
-    fun updateState() {
+    private fun updateState() {
         val newSequence = _uiState.value.sequence + 1
         _uiState.update { currentState ->
             currentState.copy(sequence = newSequence)
