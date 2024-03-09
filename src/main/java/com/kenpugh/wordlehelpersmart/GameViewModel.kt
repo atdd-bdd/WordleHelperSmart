@@ -105,11 +105,11 @@ class GameViewModel : ViewModel() {
         updateState()
     }
 
-    fun incrementGuessIndex() {
+    fun incrementGuessIndex() : Boolean{
           setCurrentGuess()
 
         if (Game.guesses.findIndex(current_guess_word) <0)
-            return
+            return false
         findNextGuesses()
         if (!game_over) {
             current_guess_index++
@@ -121,7 +121,7 @@ class GameViewModel : ViewModel() {
             resetGame()
         }
         updateState()
-
+        return true
     }
 
     private fun findNextGuesses() {

@@ -1,7 +1,9 @@
 package com.kenpugh.wordlehelpersmart
-
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import Word
 import android.app.Activity
+import android.content.ContentProvider
+import android.content.Context
 import android.content.SharedPreferences
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +20,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,6 +45,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 
@@ -54,7 +58,7 @@ private val textStyle = TextStyle(
 
 
 var initialScreenShown by mutableStateOf(false)
-
+var passedContext : Context? = null
 fun turnOffShowInitialScreen(sharedPreferences: SharedPreferences){
     with (sharedPreferences.edit()) {
         putBoolean("ShowInitialScreen", false)
@@ -63,8 +67,8 @@ fun turnOffShowInitialScreen(sharedPreferences: SharedPreferences){
 
 }
 @Composable
-fun GameScreen(gameViewModel: GameViewModel = viewModel(), sharedPreferences: SharedPreferences) {
-
+fun GameScreen(gameViewModel: GameViewModel = viewModel(), sharedPreferences: SharedPreferences, context: Context) {
+    passedContext = context
     val gameUiState by gameViewModel.uiState.collectAsState()
     val configuration = LocalConfiguration.current
     val showInitialScreen = sharedPreferences.getBoolean("ShowInitialScreen", true)
@@ -247,6 +251,7 @@ private fun ButtonResetGame(gameViewModel: GameViewModel) {
 @Composable
 fun ButtonLockInGuess(gameViewModel: GameViewModel) {
     Button(onClick = {
+//        if(!gameViewModel.incrementGuessIndex()) showNotAWord()
         gameViewModel.incrementGuessIndex()
     }) {
         Text("Lock in Guess")
@@ -254,6 +259,17 @@ fun ButtonLockInGuess(gameViewModel: GameViewModel) {
     }
 }
 
+
+fun showNotAWord() {
+    // This breaks the app
+    MaterialAlertDialogBuilder(
+        passedContext
+    )
+        .setTitle("Not a guess")
+        .setMessage("Word not in possible guesses")
+        .setCancelable(true)
+        .show()
+}
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)

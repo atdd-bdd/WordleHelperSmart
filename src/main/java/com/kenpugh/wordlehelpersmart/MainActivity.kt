@@ -26,7 +26,7 @@ class MainActivity : ComponentActivity() {
                 )
                 {
                     val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-                    GameScreen(sharedPreferences = sharedPref)
+                    GameScreen(sharedPreferences = sharedPref, context = this.baseContext)
                  }
             }
         }
