@@ -1,3 +1,5 @@
+import com.kenpugh.wordlehelpersmart.matchHard
+
 class AllWordMatches {
     companion object {
         var all_word_matches = Array(MAX_GUESSES) { WordMatches() }
@@ -52,7 +54,7 @@ class AllWordMatches {
 
         }
 
-        fun determineNextGuessIndices(currentAnswers: BitArr3): List<Int> {
+        fun determineNextGuessIndices(currentAnswers: BitArr3, hardMode: Boolean, counts: Array<Int>, equalWord: Word): List<Int> {
             val guessIndices: MutableList<Int> = mutableListOf()
             val guessAverages = Array<Triple<Int, Double, Int>>(Game.guesses.size){Triple(0,0.0, 0)}
             average.fill(0.0)
@@ -69,10 +71,34 @@ class AllWordMatches {
             printaverage(guessAverages)
             last_maximum = guessAverages[0].second
             // may want to alter if contains_guess is a 1
-            for (i in 0 until 100){
+            var maxGuesses = 100
+            if (!hardMode)
+            {
+            for (i in 0 until maxGuesses){
                if (guessAverages[i].second > 0 || guessAverages[i].third > 0)
                     guessIndices.add(guessAverages[i].first)
 
+            }}
+            else
+            {
+                var hardModeCount = 0
+                for (i in 0 until guessAverages.size)
+                {
+                    val guessIndex = guessAverages[i].first
+                    if (guessAverages[i].second > 0 || guessAverages[i].third > 0)
+                    {
+                        val guess = Game.guesses.words[guessIndex]
+                        val match =  matchHard(guess, counts, equalWord)
+                        output("Guess $guess equalWord $equalWord match $match")
+                        if (match)
+                        {
+                            hardModeCount++
+                            guessIndices.add(guessIndex)
+                            if (hardModeCount >= maxGuesses)
+                                break
+                        }
+                    }
+                }
             }
             return guessIndices
        }

@@ -18,7 +18,7 @@ class GameViewModel : ViewModel() {
     private var matchesComputed = false
     private var initialScreenShown = false
     private var currentAnswers = BitArr3()
-
+    private var hardMode = false
     init {
         Game.load()
         output("game loaded")
@@ -39,7 +39,14 @@ class GameViewModel : ViewModel() {
 
 
     }
-
+    fun setHardMode(checked: Boolean)
+    {
+        hardMode = checked
+        updateState()
+    }
+    fun getHardMode(): Boolean {
+        return hardMode
+    }
     private fun updateAnswerList() {
         answerList.clear()
         for (ac in 0 until currentAnswers.count()) {
@@ -50,11 +57,21 @@ class GameViewModel : ViewModel() {
             answerList.add(Word(""))
     }
 
+     fun meetsHardMode(guess: Word): Boolean {
+        val matchString = _uiState.value.getMatch(current_guess_index)
+        val counts = calculateCharCounts(current_guess_word, Match(matchString))
+        val equalWord = calculateEqualWord(current_guess_word, Match(matchString))
+       val match =  matchHard(guess, counts, equalWord)
+        output("Guess $guess matchstring $matchString equalWord $equalWord currentguess word $current_guess_word match $match")
+        return match
+    }
+
     private fun updateGuessList(guessIndices: List<Int>) {
         guessList.clear()
         for (i in guessIndices) {
-            guessList.add(Game.guesses.words[i])
-        }
+            val guess = Game.guesses.words[i]
+            guessList.add(guess)
+            }
         if (guessList.size == 0)
             guessList.add(Word(""))
     }
@@ -124,6 +141,8 @@ class GameViewModel : ViewModel() {
         return true
     }
 
+
+
     private fun findNextGuesses() {
         val guessIndex = Game.guesses.findIndex(current_guess_word)
         val matchString = _uiState.value.getMatch(current_guess_index)
@@ -138,7 +157,12 @@ class GameViewModel : ViewModel() {
     }
 
     private fun firstGuesses() {
-        val guessIndices = AllWordMatches.determineNextGuessIndices(currentAnswers)
+        val matchString = _uiState.value.getMatch(current_guess_index)
+        val counts = calculateCharCounts(current_guess_word, Match(matchString))
+        val equalWord = calculateEqualWord(current_guess_word, Match(matchString))
+
+        val guessIndices = AllWordMatches.determineNextGuessIndices(currentAnswers, hardMode,
+            counts, equalWord)
         output("Bits " + (AllWordMatches.last_maximum) / 100)
         output("Answers remaining " + currentAnswers.count())
         updateGuessList(guessIndices)

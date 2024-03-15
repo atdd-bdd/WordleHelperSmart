@@ -2,7 +2,7 @@
 class Word(initial :String)
 {
     private var value = arrayOf('.','.','.','.','.')
-    private val wordSize = 5
+     val wordSize = 5
     override fun hashCode(): Int {
         return 1
     }

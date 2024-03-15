@@ -15,10 +15,10 @@ fun charToIndex(value: Char) : Int {
     val ret = value - 'A'.code
     return ret.code
 }
-//fun index_to_char(index: Int): Char {
-//    val ret = index + 'A'.code
-//    return ret.toChar()
-//}
+fun index_to_char(index: Int): Char {
+    val ret = index + 'A'.code
+    return ret.toChar()
+}
 fun matchWords(guess: Word, answer: Word ): Match {
     val ret = Match("NNNNN")
      val charCount = IntArray(SIZE_ALPHABET)

@@ -23,6 +23,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -137,7 +138,9 @@ private fun InitialScreen(gameViewModel: GameViewModel, sharedPreferences: Share
                         "    You can also enter a word in the guess box\n" +
                         "2. Go to the game on the NYTimes and enter the guess\n" +
                         "3. Click on the letters until the colors match the NYTimes game\n" +
-                        "4. Then click on Lock in Guess\n",
+                        "4. Then click on Lock in Guess\n\n" +
+                        "Use hard mode by clicking on the checkbox\n"+
+                        "   ",
                 modifier = Modifier.padding(16.dp)
             )
 
@@ -192,6 +195,13 @@ private fun HorizonaGame(
                     Answercolumn(gameViewModel.answerList, gameViewModel)
                 }
                 Row {
+                    Checkbox(
+                        checked = gameViewModel.getHardMode(),
+                        onCheckedChange = { isChecked -> gameViewModel.setHardMode(isChecked) }
+                    )
+                    Text("Hard mode")
+                }
+                Row {
                     ButtonResetGame(gameViewModel)
                 }
             }
@@ -230,6 +240,13 @@ private fun VerticalGame(
             }
             Row(modifier = Modifier.weight(1f)) {
                 Answercolumn(gameViewModel.answerList, gameViewModel)
+            }
+            Row {
+                Checkbox(
+                    checked = gameViewModel.getHardMode(),
+                    onCheckedChange = { isChecked -> gameViewModel.setHardMode(isChecked) }
+                )
+                Text("Hard mode")
             }
             Row {
                 ButtonResetGame(gameViewModel)
